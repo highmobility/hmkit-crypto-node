@@ -1,0 +1,20 @@
+{
+  "name": "hm-crypto",
+  "version": "1.0.0",
+  "description": "this package could be used to secure communication between two parties using public key infrastructure",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "standard && jest"
+  },
+  "author": "Milad Rastian",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "standard": "^13.0.2"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
