@@ -21,7 +21,7 @@
 const crypto = require('crypto')
 const hmcrypto = require('../src/HmCrypto')
 
-const REPEATE_TEST = 1000
+const REPEATE_TEST = parseInt(process.env.REPEATE_TEST || '1000')
 
 describe(`generateKeys`, () => {
   it(`generates publicKey and privateKey repeatedly`, () => {
@@ -131,6 +131,45 @@ describe(`sign & verify`, () => {
         console.log(`message: ${message.toString('hex')} | signature: ${signature.toString('hex')}`)
       }
       expect(hmcrypto.verify(message, signature, publicKey)).toBe(true)
+    }
+  })
+})
+
+describe(`encryptDecrypt`, () => {
+  const bobPrivateKey = Buffer.from([244, 145, 90, 152, 245, 52, 72, 93, 249, 203, 119, 56, 76, 235, 117, 126, 179, 112, 106, 102, 84, 65, 197, 18, 15, 151, 111, 56, 235, 187, 198, 156])
+  const alicePublicKey = Buffer.from([158, 153, 180, 72, 61, 212, 122, 66, 73, 45, 52, 188, 158, 238, 83, 4, 165, 38, 114, 160, 240, 142, 137, 90, 163, 85, 32, 26, 123, 87, 130, 206, 97, 197, 214, 72, 94, 238, 251, 186, 159, 122, 34, 156, 10, 80, 140, 131, 85, 104, 237, 106, 102, 112, 201, 170, 164, 232, 1, 157, 12, 47, 82, 1])
+  const expectedEncrypted = Buffer.from('bcf57741e9dd8f53d2fa2e19ee7aaf315fb311c7a0e9542b2d251f6f0d7d45a46c92ecc9e5', 'hex')
+  const nonce = Buffer.from([0, 1, 2, 3, 4, 5, 6, 7, 8])
+  const message = Buffer.from([0x36, 0x01, 0x00, 0x01, 0x00])
+  const sessionKey = hmcrypto.sessionKey(bobPrivateKey, alicePublicKey, nonce)
+  const messageWithHmac = Buffer.concat([message, hmcrypto.hmac(sessionKey, message)])
+
+  it(`should encrypt bytes`, () => {
+    expect(hmcrypto.encryptDecrypt(messageWithHmac, bobPrivateKey, alicePublicKey, nonce)).toStrictEqual(expectedEncrypted)
+  })
+
+  it(`should decrypt bytes`, () => {
+    expect(hmcrypto.encryptDecrypt(expectedEncrypted, bobPrivateKey, alicePublicKey, nonce)).toStrictEqual(messageWithHmac)
+  })
+
+  it(`should encrypt/decrypt random data repeatedly!`, () => {
+    for (var i = 0; i < REPEATE_TEST; i++) {
+      const aliceKeys = hmcrypto.generateKeys()
+      const bobKeys = hmcrypto.generateKeys()
+      const randomSize = Math.floor(Math.random() * (1000 - 1) + 1)
+      const message = crypto.randomBytes(randomSize)
+      const nonce = crypto.randomBytes(9)
+      const encryptedMessage = hmcrypto.encryptDecrypt(message, bobKeys.privateKey, aliceKeys.publicKey, nonce)
+
+      const decryptedMessage = hmcrypto.encryptDecrypt(encryptedMessage, aliceKeys.privateKey, bobKeys.publicKey, nonce)
+
+      if (decryptedMessage.toString('hex') !== message.toString('hex')) {
+        console.log(`aliceKeys: {privateKey: ${aliceKeys.privateKey.toString('base64')}, publicKey: ${aliceKeys.publicKey.toString('base64')}},
+                    bobKeys: {privateKey: ${bobKeys.privateKey.toString('base64')}, publicKey: ${bobKeys.publicKey.toString('base64')}},
+                    message: ${message.toString('base64')}, nonce: ${nonce.toString('base64')}`)
+      }
+
+      expect(decryptedMessage).toStrictEqual(message)
     }
   })
 })

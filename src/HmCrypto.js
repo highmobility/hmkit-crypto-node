@@ -73,6 +73,26 @@ function verify (message, signature, publicKey) {
   return verify.verify(pem, signature)
 }
 
+function encryptDecrypt (message, privateKey, publicKey, nonce) {
+  const sessionKeyValue = sessionKey(privateKey, publicKey, nonce)
+
+  const encryptionKey = sessionKeyValue.slice(0, 16)
+  const iv = Buffer.concat([nonce.slice(0, 7), nonce])
+
+  const cipher = crypto.createCipheriv('aes-128-ecb', encryptionKey, '').update(iv)
+  let cipherWithSizeOfMessageWithHmac = Buffer.from(cipher)
+
+  while (cipherWithSizeOfMessageWithHmac.length < message.length) {
+    cipherWithSizeOfMessageWithHmac = Buffer.concat([cipherWithSizeOfMessageWithHmac, cipher])
+  }
+  cipherWithSizeOfMessageWithHmac = cipherWithSizeOfMessageWithHmac.slice(0, message.length)
+  return xor(cipherWithSizeOfMessageWithHmac, message)
+}
+
+function sessionKey (privateKey, publicKey, nonce) {
+  return hmac(computeSecret(privateKey, publicKey), nonce)
+}
+
 function addLineBreaks (argStr) {
   let str = argStr
   let finalString = ''
@@ -159,6 +179,15 @@ function makeSurePrivateKeyIs32 (privateKey) {
   }
 }
 
+function xor (a, b) {
+  const result = []
+  let i = 0
+  for (i = 0; i < a.length; i++) {
+    result.push(a[i] ^ b[i])
+  }
+  return Buffer.from(result)
+}
+
 module.exports = {
   generateKeys: generateKeys,
   hmac: hmac,
@@ -166,5 +195,7 @@ module.exports = {
   keyPairToPem: keyPairToPem,
   publicKeyToPem: publicKeyToPem,
   sign: sign,
-  verify: verify
+  verify: verify,
+  encryptDecrypt: encryptDecrypt,
+  sessionKey: sessionKey
 }
