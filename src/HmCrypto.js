@@ -80,13 +80,13 @@ function encryptDecrypt (message, privateKey, publicKey, nonce) {
   const iv = Buffer.concat([nonce.slice(0, 7), nonce])
 
   const cipher = crypto.createCipheriv('aes-128-ecb', encryptionKey, '').update(iv)
-  let cipherWithSizeOfMessageWithHmac = Buffer.from(cipher)
+  let cipherWithSizeOfMessage = Buffer.from(cipher)
 
-  while (cipherWithSizeOfMessageWithHmac.length < message.length) {
-    cipherWithSizeOfMessageWithHmac = Buffer.concat([cipherWithSizeOfMessageWithHmac, cipher])
+  while (cipherWithSizeOfMessage.length < message.length) {
+    cipherWithSizeOfMessage = Buffer.concat([cipherWithSizeOfMessage, cipher])
   }
-  cipherWithSizeOfMessageWithHmac = cipherWithSizeOfMessageWithHmac.slice(0, message.length)
-  return xor(cipherWithSizeOfMessageWithHmac, message)
+  cipherWithSizeOfMessage = cipherWithSizeOfMessage.slice(0, message.length)
+  return xor(cipherWithSizeOfMessage, message)
 }
 
 function sessionKey (privateKey, publicKey, nonce) {
