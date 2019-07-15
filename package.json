@@ -10,7 +10,8 @@
   "license": "GPL-3.0",
   "devDependencies": {
     "jest": "^24.8.0",
-    "standard": "^13.0.2"
+    "standard": "^13.0.2",
+    "lodash": ">=4.17.13"
   },
   "standard": {
     "env": [
