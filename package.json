@@ -1,5 +1,5 @@
 {
-  "name": "highmobility/HMCrypto",
+  "name": "hmcrypto",
   "version": "1.0.0",
   "description": "this package could be used to secure communication between two parties using public key infrastructure",
   "main": "lib/index.js",
