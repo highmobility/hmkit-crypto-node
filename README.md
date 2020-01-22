@@ -17,17 +17,11 @@ HMKIT Crypto Node is the HMKit cryptographic layer implementation on pure Node. 
 
 ## Architecture
 
-**General**: HMKIT Crypto C is pure c cryptography layer implementation based on OpenSSL. 
-
-**Crypto.c**: This contains the OpenSSL implementation.
-
-**Crypto.h**: This is the library header file that is needed to conform to the HMKit Core cryptographic abstraction layer.
-
-**commandline**: This is a test and example application for HMKit Crypto C.
+**General**: HMKIT Crypto Node is pure javascript cryptography layer implementation based on crypto library. 
 
 ## Requirements
 
-HMKit Crypto C is based on OpenSSL 1.1.0 
+HMKit Crypto Node is based on NodeJS >= 8
 
 ## Getting Started
 
