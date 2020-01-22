@@ -41,4 +41,4 @@ npm run test
 ```
 
 ## Licence
-This repository is using MIT licence. See more in the [📘 LICENCE](LICENCE.md)
+This repository is using MIT licence. See more in the [LICENCE](LICENCE.md)
