@@ -1,6 +1,5 @@
 # hm-node-crypto
-HMKIT Crypto Node is the HMKit cryptographic layer implementation on pure Node. It is used in [hmkit-node](https://github.com/highmobility/hmkit-node) library.
-
+HMKIT Crypto Node is the HMKit cryptographic layer implementation using pure JavaScript. It is used in [hmkit-node](https://github.com/highmobility/hmkit-node) library.
 
 
 
@@ -9,15 +8,25 @@ HMKIT Crypto Node is the HMKit cryptographic layer implementation on pure Node. 
 
 
 # Table of contents
-* [Architecture](#features)
+* [features](#features)
 * [Requirements](#requirements)
 * [Getting Started](#getting-started)
 * [Contributing](#contributing)
 
 
-## Architecture
+## Features
 
-**General**: HMKIT Crypto Node is pure javascript cryptography layer implementation based on crypto library. 
+**ECC**: Uses well established *Elliptic Curve Cryptography*'s curve *p256* (that is as secure as RSA, while having a smaller footprint).
+
+**De-/Encrypt**: Enables simple encryption and decryption with *AES128*.
+
+**Keys**: Perform *Diffie-Hellman*'s key exchange using *X9.63 SHA256* algorithm. Additionally
+convert keys back and forth between bytes and Apple's `SecKey` format.
+
+**Random**: Create pseudo-random bytes for cryptographic functions or as unique IDs.
+
+**Signatures**: Create and verify *Elliptic Curve Digital Signature Algorithm* (ECDSA) *X9.62 SHA256* or *HMAC* signatures.
+
 
 ## Requirements
 
