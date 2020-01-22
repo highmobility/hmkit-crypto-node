@@ -4,7 +4,7 @@ HMKIT Crypto Node is the HMKit cryptographic layer implementation on pure Node. 
 
 
 
-[![Build Status](https://travis-ci.org/highmobility/hm-node-crypto.svg?branch=master)](https://travis-ci.org/highmobility/hm-node-crypto)
+![Build Status](https://github.com/highmobility/hm-node-crypto/workflows/Node%20CI/badge.svg)
 
 
 
