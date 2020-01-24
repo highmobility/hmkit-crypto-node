@@ -1,9 +1,9 @@
-# hm-node-crypto
+# hmkit-crypto-node
 HMKIT Crypto Node is the HMKit cryptographic layer implementation using pure JavaScript. It is used in [hmkit-node](https://github.com/highmobility/hmkit-node) library.
 
 
 
-![Build Status](https://github.com/highmobility/hm-node-crypto/workflows/Node%20CI/badge.svg)
+![Build Status](https://github.com/highmobility/hmkit-crypto-node/workflows/Node%20CI/badge.svg)
 
 
 
