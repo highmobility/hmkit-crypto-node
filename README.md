@@ -38,7 +38,7 @@ Get an overview by reading the security documentation [browse the documentation]
 
 ## Contributing
 
-Before starting please read our contribution rules [Contributing](CONTRIBUTE.md)
+Before starting please read our contribution rules [Contributing](CONTRIBUTING.md)
 
 ### Developing
 
